@@ -28,7 +28,7 @@ This project simulates real-time 3D cumuli movement in an artificial intelligenc
 
 Copyright (c) Carlos Jiménez de Parga, PhD.
 
-NIMBUS SDK is available as free open-source software under a GNU GPL v3.0 license.
+NIMBUS SDK is available as free open-source software under a GNU General Public License v3.0.
 
 ## Deployment
 
