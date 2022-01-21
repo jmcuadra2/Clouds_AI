@@ -1,4 +1,4 @@
-# Real-time cumiliform fluid dynamics C++ simulator using recurrent neural networks 
+# Real-time cumuliform fluid dynamics C++ simulator using recurrent neural networks 
 
 This project simulates real-time 3D cumuli movement in an artificial intelligence fashion using recurrent neural networks (RNN) in GPGPU with C++, CUDA and PyTorch.
 
