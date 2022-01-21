@@ -1,3 +1,5 @@
+![Logo](http://www.isometrica.net/thesis/images/logo.png) 
+
 # Real-time cumuliform fluid dynamics C++ simulator using recurrent neural networks 
 
 This project simulates real-time 3D cumuli movement in an artificial intelligence fashion using recurrent neural networks (RNN) in GPGPU with C++, CUDA and PyTorch.
@@ -29,10 +31,5 @@ Compile under C++ with PyTorch 1.9 using CUDA 11 SDK.
 ## Screenshot
 
 ![App Screenshot](http://www.isometrica.net/thesis/images/image1.jpg)
-
-
-
-## Logo 
-![Logo](http://www.isometrica.net/thesis/images/logo.png)
 
 
