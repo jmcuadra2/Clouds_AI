@@ -24,6 +24,12 @@ This project simulates real-time 3D cumuli movement in an artificial intelligenc
 - [@blueskyiterator](https://www.github.com/blueskyiterator)
 - [@jmcuadra2](https://github.com/jmcuadra2) 
 
+## License
+
+Copyright (c) Carlos Jiménez de Parga, PhD.
+
+NIMBUS SDK is available as free open-source software under a GNU GPL v3.0 license.
+
 ## Deployment
 
 Compile under C++ with PyTorch 1.9 using CUDA 11 SDK.
