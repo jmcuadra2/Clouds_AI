@@ -14,7 +14,7 @@ This project simulates real-time 3D cumuli movement in an artificial intelligenc
 - Fast light pre-calculation and occlusions thanks to the NDT algorithm
 - Smooth 3D mesh clouds
 - GPGPU cloud dynamics and morphing by using CUDA parallel programming
-- Cloud fluid dynamics simulator using RNN with high performance 
+- Cumuliform fluid dynamics simulator using RNN with high performance 
 
 
 ## Authors
