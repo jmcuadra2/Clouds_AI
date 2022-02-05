@@ -478,10 +478,9 @@ int main(int argc, char* argv[])
 {
 	// Initialize FreeGLUT and Glew
 #ifdef NEURAL
-    // Set the path to .pt file
-//     input_file = "../Nube/x64/data/neural/lstm_35_5_350.pt";
-    input_file = "/home/jose/carlos_jimenez_nubes/modelos/lstm_35_5_350.pt";
-	
+    // Set the path to .pt file if you want
+//     input_file = "<your .pt file path>";
+
 	ParamsFromFilename params_from_filename = get_params_from_filename();
     if(params_from_filename == NO_PT) {
         return 1;
