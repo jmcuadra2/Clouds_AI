@@ -32,7 +32,7 @@ NIMBUS SDK is available as free open-source software under a GNU General Public 
 
 ## Deployment
 
-Compile under C++ (Visual C++ or GCC) with PyTorch 1.9 using CUDA 11 SDK (makefile is available).
+Compile under C++ (Visual C++ or GCC) with PyTorch 1.9 (libtorch) using CUDA 11 SDK (makefile is available).
 
 ## Screenshot
 
