@@ -4,7 +4,6 @@
 #pragma once
 
 #include <GL/glew.h>
-// JMCT ¿is it necessary? conflicts with torch, index Slice in CumulusIA::inferPos()
 // #ifdef _MSC_VER
 // #include <GL/wglew.h> // For wglSwapInterval
 // #else

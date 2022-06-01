@@ -9,9 +9,9 @@
 
 using namespace torch::indexing;
 
-	/**
-	Base class for position inference using a neural network
-	*/
+/**
+Base class for position inference using a neural network
+*/
 
 class NeuralNet : public torch::nn::Module
 {

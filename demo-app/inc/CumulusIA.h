@@ -4,15 +4,11 @@
 #ifndef CUMULUSIA_H
 #define CUMULUSIA_H
 
-#include <glm.hpp>
 #include "NeuralNet.h"
 #include "Cumulus.h"
 #include <GL/gl.h>
 #include <vector>
 
-/**
- * @todo write docs
- */
 namespace nimbus
 {
 	/**

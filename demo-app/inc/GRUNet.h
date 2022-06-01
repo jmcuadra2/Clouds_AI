@@ -5,9 +5,9 @@
 #define GRUNET_H
 #include "NeuralNet.h"
 
-	/**
-	Class for position inference using a GRU neural network
-	*/
+/**
+    Class for position inference using a GRU neural network
+*/
 
 class GRUNet : public NeuralNet
 {
