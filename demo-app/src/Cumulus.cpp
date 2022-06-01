@@ -216,15 +216,6 @@ void Cumulus::applyWind(float force, Fluid* windGrid)
 
 	glm::vec4 p = sphPos[sphPivot] + glm::vec4(dimM / 2, dimN / 2, dimO / 2, 0);
 
-/*
-	if ((p.x < 1 || p.x > dimM || p.y < 1 || p.y > dimN || p.z < 1 || p.z > dimO) && !extinctedCloud)
-	{
-		std::cout << "****CLOUD " << id << "OUT OF BOUND****" << std::endl;
-		extinctedCloud = true;
-		std::cout << "PIVOT APPLY WIND = " << p.x << "   " << p.y << "   " << p.z << "   " << std::endl;
-		return;
-	}
-*/
 	for (int i = 1; i < dimM; i++)
 		for (int j = 1; j < dimN; j++)
 			for (int k = 1; k < dimO; k++)

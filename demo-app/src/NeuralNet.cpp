@@ -59,7 +59,14 @@ NeuralNet::NeuralNet(int input_size, int output_size, int hidden_dim, int n_laye
  */
 NeuralNet:: ~NeuralNet() 
 {
-   delete windGrid; 
+    if (u)
+        free(u);
+    if (v)
+        free(v);
+    if (w)
+        free(w);
+
+    delete windGrid; 
 }
 
 /**
@@ -125,11 +132,10 @@ void NeuralNet::forward(torch::Tensor input)
 void NeuralNet::initLayer(torch::Tensor& layer)
 {
     c10::IntArrayRef sizes = layer.sizes();
-//     std::cout << "layer sizes " << sizes << std::endl;
     if(sizes[0] == 0) { // Just create it at the start
         layer = torch::zeros({numLayers, batchSize, hiddenDim}).to(torch::kFloat32).to(device);
     }
-//     std::cout << "layer device " << layer.device() << std::endl;
+
 }
 
 /**

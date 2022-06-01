@@ -2,7 +2,6 @@
 #include <random>
 #include <iostream>
 #include <algorithm>
-#include <ext.hpp>
 #include <GL/glu.h>
 
 #include <chrono>
@@ -19,7 +18,6 @@ CumulusIA::CumulusIA() : Cumulus()
     this->M = 30;
     this->N = 7;
     this->O = 7;
-//     this->realistic = false;
     
     windForce = 0.2; 
     coefDisp = 0.03;
@@ -103,7 +101,6 @@ void CumulusIA::setNetGridValues(int M, int N, int O, GLfloat windForce, GLfloat
     this->windForce = windForce;
     this->coefDisp = coefDisp; 
     
-//     this->realistic = realistic;
 }
 
 /**
@@ -123,7 +120,6 @@ void CumulusIA::setPosition(int index, glm::vec4 position)
  */
 void CumulusIA::initialState()
 {
-    //srand(0);
     std::vector<glm::vec3> total_data;
     std::cout << "starting" << std::endl;
     int j_end = net->getSlidingWindow();
@@ -139,7 +135,7 @@ void CumulusIA::initialState()
                 GLfloat y = sphPos[i + lowLimit].y - center.y;
                 GLfloat z = sphPos[i + lowLimit].z - center.z;                               
                 radius = sphPos[i + lowLimit].w;
-                //std::cout << "x " <<  "y " << "z " << x << "," << y << "," << z << std::endl;
+  
                 
                 GLfloat px = x + M/2.0;
                 GLfloat py = y + N/2.0;
@@ -150,8 +146,6 @@ void CumulusIA::initialState()
                 py = glm::clamp(py,0.0f,(float)N) - ((double) rand() / (RAND_MAX + 1.))/10.;
                 pz = glm::clamp(pz,0.0f,(float)O) - ((double) rand() / (RAND_MAX + 1.))/10.;
                 
-                //int index = IX(px,py,pz);
-//                 std::cout << "index px py px " <<  index <<  "," << px <<  "," << py <<  "," << pz << std::endl;
                 
                 GLfloat uF = net->getUForce(j, px, py, pz);
                 GLfloat vF = net->getVForce(j, px, py, pz);
@@ -159,11 +153,10 @@ void CumulusIA::initialState()
                 
                 GLfloat random_y = ((double) rand() / (RAND_MAX + 1.)) * 0.06 - 0.03;
                 GLfloat random_z = ((double) rand() / (RAND_MAX + 1.)) * 0.06 - 0.03;
-                
-//                 std::cout << "uF " <<  "vF " << "wF " << uF << "," << vF << "," << wF << std::endl;               
+                           
 
                 auxU = sphPos[i + lowLimit].x + glm::clamp(uF, -0.5f, 1.0f) / 10.0;  // Slow advance on +X
-                auxV = sphPos[i + lowLimit].y + glm::clamp(vF - random_y, -0.2f, 0.2f); 
+                auxV = sphPos[i + lowLimit].y + glm::clamp(vF - random_y, -0.2f, 0.2f);
                 auxW = sphPos[i + lowLimit].z + glm::clamp(wF - random_z - random_y, -0.2f, 0.2f);                
 
                 vel_list.push_back(glm::vec3(uF, vF-random_y, wF-random_z)); 
@@ -177,7 +170,6 @@ void CumulusIA::initialState()
         total_data.insert(total_data.end(), vel_list.begin(), vel_list.end());            
     }
 
-    // from_blob()  clone() si no hay errores de memoria
     auto options = torch::TensorOptions();
     std::cout << "options " << options << std::endl;
     std::cout << "total_data " << total_data.size() << std::endl;
@@ -215,10 +207,7 @@ void CumulusIA::updatePosition(/*float display_step*/) {
             minPos.z = sphPos[k +  lowLimit].z - sphRads[k];        
     
     }
-//     maxPos = maxPos + glm::vec3(10);
-//     minPos = minPos - glm::vec3(10);
-//     std::cout << id << " " << minPos.x << " " << minPos.y << " " << minPos.z << std::endl;
-//     std::cout << id << " " << maxPos.x << " " << maxPos.y << " " << maxPos.z << std::endl;
+
     vmax[id] = maxPos;
     vmin[id] = minPos;
     boxDimensions = maxPos - minPos;
@@ -261,8 +250,7 @@ void CumulusIA::calculateMeans()
     devXPos = sqrt(devXPos / numSph - meanXPos * meanXPos);
     devXPos = sqrt(devYPos / numSph - meanYPos * meanYPos);
     devXPos = sqrt(devZPos / numSph - meanZPos * meanZPos); 
-    
-//     std::cout << "means" << meanXPos << " " << meanYPos << " " << meanZPos << std::endl;
+
 }
 
 /**
@@ -278,17 +266,8 @@ void CumulusIA::inferPos()
     auto start1 = std::chrono::steady_clock::now();
     net->forward(inp); 
     torch::Tensor& output = net->getOutput();    
-//     std::cout << "output " << output.sizes() << " " << output.dtype() << std::endl; 
-//     std::cout << "inp " << inp.sizes() << " " << inp.dtype() << std::endl;
-//     std::cout << "inp " << inp << std::endl;
-//     std::cout << "device " << net->getDevice() << std::endl;
-//     
-//     auto tens = inp.index({Slice(), Slice(1, 10)}).clone().to(net->getDevice());
-//     std::cout << "tens " << tens.sizes() << " " << tens.dtype() << std::endl;
-//     std::cout << "tens " << tens << std::endl;
-    
-//     inp.index({Slice(), Slice(None, -1)}) = inp.index({Slice(), Slice(1, None)}).clone().to(net->getDevice());
-    int fake_none = inp.sizes()[1];//net->getSlidingWindow();
+
+    int fake_none = inp.sizes()[1];
     inp.index({Slice(), Slice(None, -1)}) = inp.index({Slice(), Slice(1, fake_none)}).clone().to(net->getDevice());
     inp.index({Slice(), -1}) = output.clone().to(net->getDevice());    
 
@@ -317,21 +296,10 @@ void CumulusIA::inferPos()
     meanZinp_out3 = meanZinp_out3 / cnt;        
     
     for (int k = 0; k < numSph; k++) {
-        dx[k] = glm::clamp(meanXinp_out3 + coefDisp * (accessor[0][k*3] - meanXinp_out3), 0.1f, 2.0f)/2.0;
-//         dx[k] = 0;
-        dy[k] = accessor[0][k*3 + 1];
+        dx[k] = glm::clamp(meanXinp_out3 + coefDisp * (accessor[0][k*3] - meanXinp_out3), 0.1f, 2.0f);
+        dy[k] = accessor[0][k * 3 + 1];
         dz[k] = accessor[0][k*3 + 2];           
     }
-
     
-    auto end3 = std::chrono::steady_clock::now();  
-    
-    auto end = std::chrono::steady_clock::now();
-    // JMCT uncomment to show inference times
-/*    std::cout << "inferPos in miliseconds: "
-        << std::chrono::duration_cast<std::chrono::microseconds>(end - start).count() / 1000.0 << ","
-        << std::chrono::duration_cast<std::chrono::microseconds>(end1 - start1).count() / 1000.0 << ","
-        << std::chrono::duration_cast<std::chrono::microseconds>(end2 - start2).count() / 1000.0 << ","
-        << std::chrono::duration_cast<std::chrono::microseconds>(end3 - start3).count() / 1000.0
-        << " ms" << std::endl; */   
+  
 }

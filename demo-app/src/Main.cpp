@@ -18,7 +18,6 @@
 #include <vector>
 #include <sstream>
 
-// JMCT para espera en video
 #include <thread>
 
 #include <chrono>
@@ -189,7 +188,6 @@ std::string input_file = "";
 
 enum ParamsFromFilename {NO_PT, PT, DEFAULT};
 
-// bool realistic = false;
 int call_infer = 1;
 int display_step = 0;
 
@@ -479,7 +477,7 @@ int main(int argc, char* argv[])
 	// Initialize FreeGLUT and Glew
 #ifdef NEURAL
     // Set the path to .pt file if you want
-//     input_file = "<your .pt file path>";
+     input_file = "C:/Users/Carlos/Desktop/DOCTORADO/Nubes/NubeIA/Nube/x64/data/neural/lstm_35_5_350.pt";
 
 	ParamsFromFilename params_from_filename = get_params_from_filename();
     if(params_from_filename == NO_PT) {
@@ -784,7 +782,6 @@ void applyWind() // Apply wind force
 // Render function
 void displayGL()
 {
-//      std::this_thread::sleep_for(std::chrono::milliseconds(100));
 	if (onPlay)
 	{
 

@@ -59,9 +59,7 @@ void Morph::prepareMorphEvolute()
 		{
 			cloudPosDst[i] = cloudPosSrc[i] = Model::getEllipsoid(i % offsetSrc);
 			dirTriaSrc[i] = dirTriaSrc[i % offsetSrc];
-            glm::mat4 eliipsoidR = Model::getEllipsoidR(i % offsetSrc);
-            Model::setEllipsoidR(i, eliipsoidR);
-// 			Model::setEllipsoidR(i, Model::getEllipsoidR(i % offsetSrc));
+        	Model::setEllipsoidR(i, Model::getEllipsoidR(i % offsetSrc));
 		}
 		else
 			cloudPosDst[i] = cloudPosSrc[i] = Model::getEllipsoid(i);
@@ -98,9 +96,8 @@ Render morphing for evolute
 void Morph::morphEvolute(float alpha)
 {    
 	for (int i = 0; i < offsetDst; i++) 
-        cloudPosDst[i] = cloudPosSrc[i] * alpha + Model::getEllipsoid(i + offsetSrc) * (1 -alpha);
-    // JMCT
-// 		cloudPosDst[i] = glm::mix(cloudPosSrc[i], Model::getEllipsoid(i + offsetSrc), alpha);
+        cloudPosDst[i] = glm::mix(cloudPosSrc[i], Model::getEllipsoid(i + offsetSrc), alpha);
+
 }
 
 /**
@@ -111,9 +108,8 @@ Render morphing for involute
 void Morph::morphInvolute(float alpha)
 {
 	for (int i = 0; i < offsetDst; i++)
-        cloudPosDst[i] = cloudPosSrc[i] * alpha + Model::getEllipsoid(i + offsetSrc) * (1 -alpha);
-    // JMCT
-// 		cloudPosDst[i] = glm::mix(cloudPosSrc[i], Model::getEllipsoid(i % offsetSrc), alpha);
+        cloudPosDst[i] = glm::mix(cloudPosSrc[i], Model::getEllipsoid(i + offsetSrc) ,alpha);
+
 }
 
 /**
