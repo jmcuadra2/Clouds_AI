@@ -40,7 +40,31 @@ Compile under C++ (Visual C++ or GCC) with PyTorch 1.9 (libtorch) using CUDA 11 
 <tbody>
 <tr>
 <td>
+<img src="http://www.isometrica.net/thesis/images/iterian.png" width=400/>
+</td>
+<td>
 <img src="http://www.isometrica.net/thesis/images/evening.png" width=400/>
+</td>
+</tr>
+<tr>
+<td>
+<img src="http://www.isometrica.net/thesis/images/cumulus.png" width=400/>
+</td>
+<td>
+<img src="http://www.isometrica.net/thesis/images/red.png" width=400/>
+</td>
+</tr>
+<tr>
+<td>
+<img src="http://www.isometrica.net/thesis/images/image2.png" width=400/>
+</td>
+<td>
+<img src="http://www.isometrica.net/thesis/images/image3.png" width=400/>
+</td>
+</tr>
+<tr>
+<td>
+<img src="http://www.isometrica.net/thesis/images/storm3.png" width=400/>
 </td>
 <td>
 <img src="http://www.isometrica.net/thesis/images/sunset1.png" width=400/>
@@ -48,12 +72,37 @@ Compile under C++ (Visual C++ or GCC) with PyTorch 1.9 (libtorch) using CUDA 11 
 </tr>
 <tr>
 <td>
-<img src="http://www.isometrica.net/thesis/images/evening.png" width=400/>
+<img src="http://www.isometrica.net/thesis/images/storm2.png" width=400/>
 </td>
 <td>
-<img src="http://www.isometrica.net/thesis/images/sunset1.png" width=400/>
+<img src="http://www.isometrica.net/thesis/images/storm3.png" width=400/>
 </td>
 </tr>
+<tr>
+<td>
+<img src="http://www.isometrica.net/thesis/images/seastorm1.png" width=400/>
+</td>
+<td>
+<img src="http://www.isometrica.net/thesis/images/seasotorm2.png" width=400/>
+</td>
+</tr>
+<tr>
+<td>
+<img src="http://www.isometrica.net/thesis/images/storm6.png" width=400/>
+</td>
+<td>
+<img src="http://www.isometrica.net/thesis/images/sunset2.png" width=400/>
+</td>
+</tr>
+<tr>
+<td>
+<img src="http://www.isometrica.net/thesis/images/storm5.png" width=400/>
+</td>
+<td>
+<img src="http://www.isometrica.net/thesis/images/storm4.png" width=400/>
+</td>
+</tr>
+
 </tbody>
 </table>
 
