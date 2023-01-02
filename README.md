@@ -83,7 +83,7 @@ Compile under C++ (Visual C++ or GCC) with PyTorch 1.9 (libtorch) using CUDA 11 
 <img src="http://www.isometrica.net/thesis/images/seastorm1.png" width=400/>
 </td>
 <td>
-<img src="http://www.isometrica.net/thesis/images/seasotorm2.png" width=400/>
+<img src="http://www.isometrica.net/thesis/images/seastorm2.png" width=400/>
 </td>
 </tr>
 <tr>
