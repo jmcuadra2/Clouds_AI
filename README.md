@@ -48,7 +48,7 @@ Compile under C++ (Visual C++ or GCC) with PyTorch 1.9 (libtorch) using CUDA 11 
 </tr>
 <tr>
 <td>
-<img src="http://www.isometrica.net/thesis/images/cumulus.png" width=400/>
+<img src="http://www.isometrica.net/thesis/images/cumulus.jpg" width=400/>
 </td>
 <td>
 <img src="http://www.isometrica.net/thesis/images/red.png" width=400/>
