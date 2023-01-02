@@ -40,7 +40,7 @@ Compile under C++ (Visual C++ or GCC) with PyTorch 1.9 (libtorch) using CUDA 11 
 <tbody>
 <tr>
 <td>
-<img src="http://www.isometrica.net/thesis/images/iterian.png" width=400/>
+<img src="http://www.isometrica.net/thesis/images/iterian.jpg" width=400/>
 </td>
 <td>
 <img src="http://www.isometrica.net/thesis/images/evening.png" width=400/>
@@ -72,7 +72,7 @@ Compile under C++ (Visual C++ or GCC) with PyTorch 1.9 (libtorch) using CUDA 11 
 </tr>
 <tr>
 <td>
-<img src="http://www.isometrica.net/thesis/images/storm2.png" width=400/>
+<img src="http://www.isometrica.net/thesis/images/storm2.jpg" width=400/>
 </td>
 <td>
 <img src="http://www.isometrica.net/thesis/images/storm3.png" width=400/>
@@ -96,7 +96,7 @@ Compile under C++ (Visual C++ or GCC) with PyTorch 1.9 (libtorch) using CUDA 11 
 </tr>
 <tr>
 <td>
-<img src="http://www.isometrica.net/thesis/images/storm5.png" width=400/>
+<img src="http://www.isometrica.net/thesis/images/storm5.jpg" width=400/>
 </td>
 <td>
 <img src="http://www.isometrica.net/thesis/images/storm4.png" width=400/>
