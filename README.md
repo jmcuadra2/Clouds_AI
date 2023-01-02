@@ -36,6 +36,6 @@ Compile under C++ (Visual C++ or GCC) with PyTorch 1.9 (libtorch) using CUDA 11 
 
 ## Screenshots
 
-![App Screenshot](http://www.isometrica.net/thesis/images/iterian.jpg | width=400)
+![](http://www.isometrica.net/thesis/images/iterian.jpg | width=400)
 
 
