@@ -36,6 +36,25 @@ Compile under C++ (Visual C++ or GCC) with PyTorch 1.9 (libtorch) using CUDA 11 
 
 ## Screenshots
 
-![](http://www.isometrica.net/thesis/images/iterian.jpg | width=400)
+<table>
+<tbody>
+<tr>
+<td>
+<img src="http://www.isometrica.net/thesis/images/evening.png" width=400/>
+</td>
+<td>
+<img src="http://www.isometrica.net/thesis/images/sunset1.png" width=400/>
+</td>
+</tr>
+<tr>
+<td>
+<img src="http://www.isometrica.net/thesis/images/evening.png" width=400/>
+</td>
+<td>
+<img src="http://www.isometrica.net/thesis/images/sunset1.png" width=400/>
+</td>
+</tr>
+</tbody>
+</table>
 
 
