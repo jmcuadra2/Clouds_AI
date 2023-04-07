@@ -1,12 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# ## Dependencies
-#!pip install torchvision
-
-
-
-
 import numpy as np
 import matplotlib.pyplot as plt
 import torch
@@ -326,11 +317,10 @@ if modelo == 'LSTM':
     model = LSTM(input_size=105, output_size=105, hidden_dim=350, n_layers=5)
     
 if modelo == 'RNN':
-    model = RNN(input_size=105, output_size=105, hidden_dim=400, n_layers=4)
-    
+    model = RNN(input_size=105, output_size=105, hidden_dim=350, n_layers=5)
     
 if modelo == 'GRU':
-    model = GRU(input_size=105, output_size=105, hidden_dim=500, n_layers=10)
+    model = GRU(input_size=105, output_size=105, hidden_dim=350, n_layers=5)
     
 if modelo == 'FF':
     model = FF()
@@ -338,7 +328,7 @@ if modelo == 'FF':
 model = model.to(device)
 
 n_epochs = 30 
-lr=0.0005
+lr=0.001
 
 criterion = nn.MSELoss()
 #criterion = my_loss()
@@ -497,4 +487,3 @@ plt.legend()
 plt.plot(np.array(history_train)**-1, label = 'Train')
 plt.plot(np.array(history_test)**-1, label = 'Test')
 plt.legend()
-
