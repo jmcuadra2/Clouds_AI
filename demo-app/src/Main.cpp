@@ -98,9 +98,9 @@ nimbus::Winds windDirection = nimbus::Winds::WEST;
 // 30 FPS minimum real-time
 // JMCT
 #ifdef _WIN32
-const DWORD FPS = 1000 / 30
+const DWORD FPS = 30 / 1000
 #elif __linux_
-const unsigned int FPS = 1000 / 30
+const unsigned int FPS = 30 / 1000
 #endif
 ;
 
