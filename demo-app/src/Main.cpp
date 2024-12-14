@@ -4,7 +4,7 @@
 // Software Engineering and Computer Systems Deparment	
 // National University for Distance Education (UNED)			    		
 // (c) Carlos Jiménez de Parga, PhD student.
-// Last revision 20/01/2022
+// Last revision 14/12/2024
 // Version 2.0
 //////////////////////////////////////////////////////////////////
 
@@ -41,7 +41,6 @@
 #include <chrono>
 #endif
 
-std::ofstream outdata;
 
 struct AtExit // For debug purposes
 {
@@ -52,11 +51,11 @@ struct AtExit // For debug purposes
 } doAtExit;
 
 // Sun/moon light direction
-glm::vec3 sunDir = glm::normalize(glm::vec3(0.5, -0.2, 1.0));
+glm::vec3 sunDir = glm::normalize(glm::vec3(-1.0, 0.01, 1.0));
 
 #ifdef FLUID
 const float windForce = 0.1f;
-const int FLUIDLIMIT = 100;
+const int FLUID_LIMIT = 150;
 #endif
 bool parallel = true;
 bool mean = false;
@@ -74,9 +73,10 @@ nimbus::Model model2;
 nimbus::Morph morphing;
 
 #ifdef NEURAL
-nimbus::CumulusIA myCloud[10];
+const int NEURAL_LIMIT = 150;
+nimbus::CumulusIA myCloud[20];
 #else
-nimbus::Cumulus myCloud[10]; // Create cumulus clouds
+nimbus::Cumulus myCloud[20]; // Create cumulus clouds
 #endif
 glm::vec3 EXTINCTION_LIMIT(100.0, 15.0, 30.0); // Limit of scenary
 const GLint SCR_W = 1200;  // Screen dimensions
@@ -95,14 +95,6 @@ nimbus::Winds windDirection = nimbus::Winds::WEST;
 #ifdef NEURAL
 nimbus::Winds windDirection = nimbus::Winds::WEST;
 #endif
-// 30 FPS minimum real-time
-// JMCT
-#ifdef _WIN32
-const DWORD FPS = 30 / 1000
-#elif __linux_
-const unsigned int FPS = 30 / 1000
-#endif
-;
 
 int windowWidth =  SCR_W;
 int windowHeight = SCR_H;
@@ -147,7 +139,7 @@ float cloudDepth = 20.0f; // Distance from viewer
 float frameCount = 0.0; //FPS measurement
 int previousTime;
 
-int  skyTurn = 0; // Day hour
+int  skyTurn = 1; // Day hour
 float timeDelta = 99999.0f; // Timers 
 float timeDir = -0.06f;
 int simcont = 1000;
@@ -180,7 +172,7 @@ void syncFPS();
 
 NeuralNet *net;
 
-int NUM_SPH = 60;
+int NUM_SPH = 35;
 std::string net_type = "LSTM";
 int hidden_dim;
 int n_layers; 
@@ -474,11 +466,13 @@ ParamsFromFilename get_params_from_filename()
 
 int main(int argc, char* argv[])
 {
+
 	// Initialize FreeGLUT and Glew
 #ifdef NEURAL
     // Set the path to .pt file if you want
-     input_file = "C:/Users/Carlos/Desktop/DOCTORADO/Nubes/NubeIA/Nube/x64/data/neural/lstm_35_5_350.pt";
+    //input_file = "C:/Users/Carlos/Desktop/DOCTORADO/Nubes/NubeIA/Nube/x64/data/neural/lstm_35_5_350.pt";
 
+	input_file = "../../Nube/x64/data/neural/lstm_35_5_350.pt";
 	ParamsFromFilename params_from_filename = get_params_from_filename();
     if(params_from_filename == NO_PT) {
         return 1;
@@ -488,7 +482,6 @@ int main(int argc, char* argv[])
 #endif
 	initGL(argc, argv);
 	initGLEW();
-//     outdata.open("datos.txt"); // opens the file
 
 	try {
 		// Cameras setup
@@ -498,7 +491,7 @@ int main(int argc, char* argv[])
 		cameraFrame.setLookAt(glm::vec3(0, 0, -SCR_Z), glm::vec3(0, 0, SCR_Z));
 		cameraFrame.translate(glm::vec3(-SCR_W / 2.0,-SCR_H / 2.0, -SCR_Z));
 	
-		userCameraPos = glm::vec3(0.0, 0.4, 0.0);
+		userCameraPos = glm::vec3(0.0, 0.6, 0.0);
 
 		// Create framgent shader canvas
 		canvas.create(SCR_W, SCR_H);
@@ -506,37 +499,43 @@ int main(int argc, char* argv[])
 		nimbus::Cloud::createTexture(TEXTSIZ);
 
 #ifdef MOUNT
-		mountain.create(800.0, false); // Create mountain
+		mountain.create(400.0, false); // Create mountain
 #endif
 		axis.create(); // Create 3D axis
 
 		//Create cumulus clouds
-        glm::vec3 center0 = glm::vec3(-10,5,0);
-		myCloud[0].create(35, 2.8, center0, 0.0, 4.2, 0.0, 1.9, 0.0, 3.2, true, false);
-
+        for (int i = 0; i < 10; i++)
+		{
+			glm::vec3 center0 = glm::vec3((i-5)*10, 7, 0);
+			myCloud[i].create(35, 2.9, center0, 0.0, 3.8, 0.0, 1.7, 0.0, 3.7, true, false);
+			myCloud[i].setGuidePoint(nimbus::Winds::WEST);
+		}
+		//glm::vec3 center1 = glm::vec3(0, 4.5, -10.0);
+		//myCloud[1].create(35, 2.9, center1, 0.0, 3.8, 0.0, 1.7, 0.0, 3.7, true, false);
+		//glm::vec3 center2 = glm::vec3(-26, 3.0, -35.0);
+		//myCloud[2].create(35, 2.9, center2, 0.0, 3.8, 0.0, 1.0, 0.0, 3.7, true, false);
 		// Calculate guide points for cumulus
-
-		myCloud[0].setGuidePoint(nimbus::Winds::WEST);
-	
+		//myCloud[1].setGuidePoint(nimbus::Winds::WEST);
+		//myCloud[2].setGuidePoint(nimbus::Winds::WEST);
 #ifdef NEURAL
         initNet(params_from_filename, input_file);
-        for(int i = 0; i < nimbus::Cloud::getNumClouds(); i++) 
+		for(int i = 0; i < nimbus::Cloud::getNumClouds(); i++) 
             initialiceCloudNet(i);
 #endif        
 		// Load shaders
 		// Main shader
-		shaderCloud.loadShader(GL_VERTEX_SHADER, "../Nube/x64/data/shaders/canvasCloud.vert");
+		shaderCloud.loadShader(GL_VERTEX_SHADER, "../../Nube/x64/data/shaders/canvasCloud.vert");
 #ifdef MOUNT
 		// Mountains shader for cumulus
-		shaderCloud.loadShader(GL_FRAGMENT_SHADER, "../Nube/x64/data/shaders/clouds_CUMULUS_MOUNT.frag");
+		shaderCloud.loadShader(GL_FRAGMENT_SHADER, "../../Nube/x64/data/shaders/clouds_CUMULUS_MOUNT.frag");
 #endif
 #ifdef SEA
 		// Sea shader for cumulus
 		shaderCloud.loadShader(GL_FRAGMENT_SHADER, "../Nube/x64/data/shaders/clouds_CUMULUS_SEA.frag");
 #endif
 		// Axis shaders
-		shaderAxis.loadShader(GL_VERTEX_SHADER, "../Nube/x64/data/shaders/axis.vert");
-		shaderAxis.loadShader(GL_FRAGMENT_SHADER, "../Nube/x64/data/shaders/axis.frag");
+		shaderAxis.loadShader(GL_VERTEX_SHADER, "../../Nube/x64/data/shaders/axis.vert");
+		shaderAxis.loadShader(GL_FRAGMENT_SHADER, "../../Nube/x64/data/shaders/axis.frag");
 
 		// Create shader programs
 		shaderCloud.createShaderProgram();
@@ -549,7 +548,11 @@ int main(int argc, char* argv[])
 		nimbus::Cloud::getUniforms(shaderCloud);
 		nimbus::Cumulus::getUniforms(shaderCloud);
 		axis.getUniforms(shaderAxis);
-        
+		
+		mousePos = glm::vec2(2300,6);
+		cloudDepth = 33.0;
+		userCameraPos.y -= 0.2f;
+		
 		// Start main loop
 		glutMainLoop();
 
@@ -684,45 +687,14 @@ unsigned int GetTickCountMs()
 }
 #endif
 
-// Application speed synchronization
-
-void syncFPS()
-{
-#ifdef _WIN32
-	static DWORD dwLastTime = 0;
-
-	DWORD dwCurrentTime = GetTickCount64(); // Get milliseconds from the system start up
-
-	DWORD dwElapsed = dwCurrentTime - dwLastTime; // Calculates elapsed time
-
-	if (dwElapsed < FPS) // The frame loop lasted less than the defined time 				
-	{
-		Sleep(FPS - dwElapsed);	// Sleeps the application
-		dwLastTime = dwCurrentTime + FPS - dwElapsed; // Adds the sleeped time
-
-	}
-	else dwLastTime = dwCurrentTime;	// The frame loop exceeded the time
-#elif __linux_
-	static unsigned int dwLastTime = 0;
-    unsigned int dwCurrentTime = GetTickCountMs();
-    unsigned int dwElapsed = dwCurrentTime - dwLastTime;
-    if (dwElapsed < FPS) // The frame loop lasted less than the defined time 				
-	{
-		usleep((FPS - dwElapsed) * 1000);	// Sleeps the application
-		dwLastTime = dwCurrentTime + FPS - dwElapsed; // Adds the sleeped time
-	}
-	else dwLastTime = dwCurrentTime;
-#endif
-}
 
 // Calculate Frame-per-second
-float fps;
-
 void calculateFPS()
 {
 	static bool firstTime = true;
 
 	int currentTime;
+	float fps;
 
 	//  Increase frame count
 	frameCount++;
@@ -743,9 +715,10 @@ void calculateFPS()
 	if (timeInterval > 1000)
 	{
 		//  calculate the number of frames per second
+				
 		fps = frameCount / (timeInterval / 1000.0f);
 		std::cout << "FPS = " << fps << std::endl;
-
+	
 		//  Set time
 		previousTime = currentTime;
 
@@ -795,8 +768,8 @@ void displayGL()
 		glm::vec2 mouseScale = mousePos / glm::vec2(SCR_W, SCR_H);
 
 		// Rotate camera
-		glm::vec3 userCameraRotatePos = /*userCameraPos + glm::vec3(0, 0, 2);*/ glm::vec3(sin(mouseScale.x*3.0), mouseScale.y, cos(mouseScale.x*3.0));
-		
+		glm::vec3 userCameraRotatePos =  glm::vec3(sin(mouseScale.x * 3.0), mouseScale.y, cos(mouseScale.x * 3.0));
+
 		glDisable(GL_DEPTH_TEST);
 
 		shaderCloud.useProgram();
@@ -835,7 +808,7 @@ void displayGL()
 			// Render cumulus class
 			nimbus::Cumulus::render(shaderCloud);
 
-			if (firstPass) //precomputeTimeOut >= PRECOMPTIMEOUT) // Check for regular precompute light (shading)
+			if (precomputeTimeOut >= PRECOMPTIMEOUT) // Check for regular precompute light (shading)
 			{
 	
 				std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
@@ -1023,13 +996,10 @@ void idleGL()
 {
 	if (!onPlay) return;
 
-	syncFPS();
-
 #ifdef CUMULUS
 #ifdef FLUID
-
 	simcont++;
-	if (simcont > FLUIDLIMIT) // Simulate fluid
+	if (simcont > FLUID_LIMIT) // Simulate fluid
 	{
 		applyWind();
 		std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
@@ -1068,14 +1038,16 @@ void idleGL()
 	}
 #endif
 #ifdef NEURAL
-        int num_clouds = nimbus::Cumulus::getNumClouds();
+	simcont++;
+	if (simcont > NEURAL_LIMIT) // Simulate fluid
+	{
+		int num_clouds = nimbus::Cumulus::getNumClouds();
 		std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
-		for(int i = 0; i < num_clouds; i++) { 
-            myCloud[i].inferPos();
-         };
+		for (int i = 0; i < num_clouds; i++) {
+			myCloud[i].inferPos();
+		};
 		std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
 		float ellapsed = std::chrono::duration_cast<std::chrono::milliseconds> (end - begin).count();
-
 
 		static float samples = 0.0f;
 		static float sum = 0.0f;
@@ -1084,9 +1056,8 @@ void idleGL()
 		{
 			sum += ellapsed;
 			samples++;
-			if (samples > 30)
+			if (samples > 10)
 			{
-				//std::cout << "====================MEAN FPS for" << ((parallel) ? " CUDA = " : " CPU = ") << sumFPS / samples << std::endl;
 				std::cout << "Time difference MEAN NEURAL TIME = " << sum / samples << "[ms]" << "\t" << std::endl;
 				sum = samples = 0.0f;
 				mean = false;
@@ -1097,11 +1068,14 @@ void idleGL()
 			samples = 0.0f;
 			sum = 0.0f;
 		}
-		
+
 
 		for (int i = 0; i < num_clouds; i++) {
 			myCloud[i].updatePosition();
 		};
+	
+		simcont = 0;
+	}
 
 #endif  
 #endif
@@ -1110,13 +1084,14 @@ void idleGL()
 
 // Key press function
 
-
-
 void keyboardGL(unsigned char c, int x, int y)
 {
 	switch (c)
 	{
 	case 'w':
+		std::cout << "MX = " << mousePos.x << ", MY =" << mousePos.y << std::endl;
+		std::cout << "Depth = " << cloudDepth << std::endl;
+		break;
 	case 'W':
 		break;
 	case 'a':
@@ -1133,7 +1108,7 @@ void keyboardGL(unsigned char c, int x, int y)
 	case 'm':
 		mean = !mean;
 		(mean) ? std::cout << "MEAN ENABLED for " : std::cout << "MEAN DISABLED for ";
-		std::cout << ((parallel) ? "CUDA" : "CPU") << std::endl;
+		std::cout << ((parallel) ? "CUDA/RNN" : "CPU") << std::endl;
 
 		break;
 	case 'd':
@@ -1174,7 +1149,7 @@ void keyboardGL(unsigned char c, int x, int y)
 	case 'n':
 		break;
 #endif
-	case 'r': {// Recreate new cloud
+	case 'r': {// Recreate new clouds
 		nimbus::Cloud::resetNumClouds();
 		precomputeTimeOut = PRECOMPTIMEOUT;
         glm::vec3 center0 = glm::vec3(5.0, 9.0, 0.0);
@@ -1239,6 +1214,9 @@ void keyboardUpGL(unsigned char c, int x, int y)
 	case 'A':
 		break;
 	case 's':
+		std::cout <<"MX=" << mousePos.x << " MY=" << mousePos.y;
+		mousePos = glm::vec2(2320, 96);
+		cloudDepth = 33.0;
 		break;
 	case 'S':
 		break;
@@ -1285,7 +1263,7 @@ void specialGL(int key, int x, int y)
 		break;
 	case GLUT_KEY_LEFT:
 		userCameraPos.x -= 0.1f;
-
+		break;
 	}
 }
 
