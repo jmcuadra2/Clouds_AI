@@ -12,6 +12,7 @@ This project simulates real-time 3D cumuli movement in an artificial intelligenc
 - Improved bounding boxes
 - Improved Gaussian equations
 - L-System fractal cloud generation
+- Metaballs cloud generation
 - Efficient lighting system with anisotropic forward scattering
 - Fast light pre-calculation and occlusions thanks to the NDT algorithm
 - Smooth 3D mesh clouds
