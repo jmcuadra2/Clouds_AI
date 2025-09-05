@@ -29,7 +29,7 @@ This project simulates real-time 3D cumuli movement in an artificial intelligenc
 
 Copyright (c) [@blueskyiterator](https://www.github.com/blueskyiterator), Ph.D.
 
-NIMBUS SDK v2.0 is available as free open-source software under a GNU General Public License v3.0.
+NIMBUS SDK v2.0 is available as Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported (CC-BY-NC-SA).
 
 ## Deployment
 
