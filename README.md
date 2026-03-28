@@ -101,7 +101,7 @@ Compile under C++ (Visual C++ or GCC) with PyTorch 1.9 (libtorch) using CUDA 11 
 </td>
 <td>
 <img src="http://www.isometrica.net/thesis/images/sunset2.png" width=400/>
-</td>
+</td> 
 </tr>
 <tr>
 <td>
